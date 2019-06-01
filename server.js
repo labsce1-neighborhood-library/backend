@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config();
 
 const apiRoutes = require('./api/apiRoutes.js');
 
@@ -9,7 +10,7 @@ server.use(cors());
 
 server.use('/api', apiRoutes);
 
-const port = 9000;
+const port = process.env.PORT || 9000;
 
 server.listen(port, () => {
     console.log(`API running on http://localhost:${port}`);
