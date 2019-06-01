@@ -60,7 +60,12 @@ To get the server running locally:
 | PUT    | `/users/:userId`        | owners, supervisors |                                                    |
 | DELETE | `/users/:userId`        | owners, supervisors |                                                    |
 | POST | `/api/user`        | all users | Creates a new user body:{"name":"username"} |
-| GET | `/api/user/id/:id` | all users | Reads user by id of user
+| GET | `/api/user/id/:id` | all users | Reads user by id of user |
+| GET | `/api/user/name/:name` | all users | Reads user by username of user |
+| PUT | `/api/user/id/:id` | owners, supervisors | Updates username by id of user |
+| PUT | `/api/user/name/:name` | owners, supervisors | Updates username by username of user |
+| DELETE | `/api/user/id/:id` | owners, supervisors | Deletes user by id of user |
+| DELETE | `/api/user/name/:name` | owners, supervisors | Deletes user by username of user |
 
 # Data Model
 
