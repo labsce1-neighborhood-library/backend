@@ -59,6 +59,8 @@ To get the server running locally:
 | POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
 | PUT    | `/users/:userId`        | owners, supervisors |                                                    |
 | DELETE | `/users/:userId`        | owners, supervisors |                                                    |
+| POST | `/api/user`        | all users | Creates a new user body:{"name":"username"} |
+| GET | `/api/user/id/:id` | all users | Reads user by id of user
 
 # Data Model
 
