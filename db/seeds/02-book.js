@@ -10,21 +10,27 @@ exports.seed = function(knex, Promise) {
           user_id: 1,
           isbn: "9780307277923",
           condition: "good",
-          loaned: false
+          loaned: false,
+          created_at: "2019-06-05T22:25:48.719Z",
+          updated_at: "2019-06-05T22:25:48.719Z"
         },
         {
           book_id: 2,
           user_id: 1,
           isbn: "9780375702709",
           condition: "okay",
-          loaned: false
+          loaned: false,
+          created_at: "2019-06-05T22:25:48.719Z",
+          updated_at: "2019-06-05T22:25:48.719Z"
         },
         {
           book_id: 3,
           user_id: 1,
           isbn: "9780679725312",
           condition: "excellent",
-          loaned: false
+          loaned: false,
+          created_at: "2019-06-05T22:25:48.719Z",
+          updated_at: "2019-06-05T22:25:48.719Z"
         }
       ]);
     });

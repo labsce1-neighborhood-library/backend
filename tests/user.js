@@ -8,7 +8,11 @@ const db = require("../db/config.js");
 chai.use(chaiHttp);
 chai.should();
 
+/*****************************************
+CANNOT TRUNCATE TABLE WITH FOREIGN KEY
+
 beforeEach(async () => {
+  await db("book_table").truncate();
   await db("user_table").truncate();
 });
 
@@ -26,7 +30,8 @@ describe("User", () => {
         });
     });
   });
-
+**********************************************/
+describe("User", () => {
   describe("GET /user/all with nonempty database", () => {
     // Test to get all users
     it("should return an array of length 1", async () => {
