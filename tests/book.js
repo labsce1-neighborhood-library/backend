@@ -98,6 +98,40 @@ describe("Book", () => {
     });
   });
 
+  describe("GET /book/all with nonempty database", () => {
+    // Test to get all books
+    it("should return an array of length 3", async () => {
+      // await db.seed.run();
+      return new Promise(resolve => {
+        chai
+          .request(server)
+          .get("/book/all")
+          .end((err, res) => {
+            res.body.should.be.a("array");
+            res.body.should.have.lengthOf(3);
+            resolve();
+          });
+      });
+    });
+  });
+
+  describe("GET /book/by-user/:id", () => {
+    // Test to get all books
+    it("should return an array of length 3", async () => {
+      // await db.seed.run();
+      return new Promise(resolve => {
+        chai
+          .request(server)
+          .get("/book/by-user/1")
+          .end((err, res) => {
+            res.body.should.be.a("array");
+            res.body.should.have.lengthOf(3);
+            resolve();
+          });
+      });
+    });
+  });
+
   describe("POST /book/post-book/1 return id of new book", () => {
     it("should return an array of length 1", done => {
       chai
