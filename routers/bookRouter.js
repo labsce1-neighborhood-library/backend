@@ -48,7 +48,7 @@ router.get("/by-user/:id", (req, res) => {
 router.post("/post-new/:id", (req, res) => {
   const newBook = req.body;
   db("book_table")
-    .returning("book_id")
+    .returning("*")
     .insert(newBook)
     .then(response => {
       if (response.length) {
