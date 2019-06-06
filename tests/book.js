@@ -118,7 +118,7 @@ describe("Book", () => {
         });
     });
 
-    it("should return an integer in the array", done => {
+    it("should return an object in the array", done => {
       chai
         .request(server)
         .post("/book/post-new/1")
@@ -131,11 +131,38 @@ describe("Book", () => {
           updated_at: "2019-06-05T22:25:48.719Z"
         })
         .end((err, res) => {
+          chai.expect(res.body[0]).to.be.a("object");
+
+          done();
+        });
+    });
+    it("should return specific object", done => {
+      chai
+        .request(server)
+        .post("/book/post-new/1")
+        .send({
+          user_id: 1,
+          isbn: "9780375702709",
+          condition: "okay",
+          loaned: false,
+          created_at: "2019-06-05T22:25:48.719Z",
+          updated_at: "2019-06-05T22:25:48.719Z"
+        })
+        .end((err, res) => {
+          // Manually setting book_id in stringify to accommodate incrementing during tests
           chai
-            .expect(res.body[0])
-            .to.be.a("number")
-            .above(0)
-            .and.satisfy(Number.isInteger);
+            .expect(JSON.stringify({ ...res.body[0], book_id: 130 }))
+            .to.equal(
+              JSON.stringify({
+                book_id: 130,
+                user_id: 1,
+                isbn: "9780375702709",
+                condition: "okay",
+                loaned: false,
+                created_at: "2019-06-05T22:25:48.719Z",
+                updated_at: "2019-06-05T22:25:48.719Z"
+              })
+            );
 
           done();
         });
