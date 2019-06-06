@@ -7,14 +7,14 @@ exports.up = function(knex, Promise) {
           .unsigned()
           .notNullable()
           .references("user_id")
-          .inTable("users_table")
+          .inTable("user_table")
           .onDelete("CASCADE")
         tbl
             .integer("reciever_id")
             .unsigned()
             .notNullable()
             .references("user_id")
-            .inTable("users_table")
+            .inTable("user_table")
             .onDelete("CASCADE")
         tbl.string("content").notNullable()
         tbl.datetime('time_sent', {precision: 6}).defaultTo(knex.fn.now(6));

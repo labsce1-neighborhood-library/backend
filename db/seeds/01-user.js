@@ -27,7 +27,6 @@ const generateSeeds = () => {
   let numOfFakeUsers = 510; 
   /* reserving the first 10 spots for developers */
   arr.push({
-    user_id: 1,
     firebase_id: 1,
     username: "sarah",
     email: "sarah@email.com",
@@ -38,7 +37,6 @@ const generateSeeds = () => {
   })
 
   arr.push({
-    user_id: 2,
     firebase_id: 2,
     username: "sagar",
     email: "sagar@email.com",
@@ -49,7 +47,6 @@ const generateSeeds = () => {
   })
 
   arr.push({
-    user_id: 3,
     firebase_id: 3,
     username: "Kyle",
     email: "kyle@email.com",
@@ -60,7 +57,6 @@ const generateSeeds = () => {
   })
 
   arr.push({
-    user_id: 4,
     firebase_id: 4,
     username: "David",
     email: "David@email.com",
@@ -71,7 +67,6 @@ const generateSeeds = () => {
   })
 
   arr.push({
-    user_id: 5,
     firebase_id: 5,
     username: "Cameron",
     email: "Cameron@email.com",
@@ -82,7 +77,6 @@ const generateSeeds = () => {
   })
 
   arr.push({
-    user_id: 6,
     firebase_id: 6,
     username: "JonathanH",
     email: "JonathanH@email.com",
@@ -97,7 +91,6 @@ const generateSeeds = () => {
   for (let i = 10; i < numOfFakeUsers; i++ ){
     const username = faker.internet.userName();
     arr.push({
-        user_id: i,
         firebase_id: i,
         username: username,
         email: `${username}@email.com`,
