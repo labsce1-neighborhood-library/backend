@@ -90,4 +90,48 @@ describe("Book", () => {
         });
     });
   });
+
+  describe("POST /book/post-book/1 return id of new book", () => {
+    it("should return an array of length 1", done => {
+      chai
+        .request(server)
+        .post("/book/post-book/1")
+        .send({
+          user_id: 1,
+          isbn: "9780375702709",
+          condition: "okay",
+          loaned: false,
+          created_at: "2019-06-05T22:25:48.719Z",
+          updated_at: "2019-06-05T22:25:48.719Z"
+        })
+        .end((err, res) => {
+          res.body.should.be.a("array");
+          res.body.should.have.lengthOf(1);
+          done();
+        });
+    });
+
+    it("should return an integer in the array", done => {
+      chai
+        .request(server)
+        .post("/book/post-book/1")
+        .send({
+          user_id: 1,
+          isbn: "9780375702709",
+          condition: "okay",
+          loaned: false,
+          created_at: "2019-06-05T22:25:48.719Z",
+          updated_at: "2019-06-05T22:25:48.719Z"
+        })
+        .end((err, res) => {
+          chai
+            .expect(res.body[0])
+            .to.be.a("number")
+            .above(0)
+            .and.satisfy(Number.isInteger);
+
+          done();
+        });
+    });
+  });
 });
