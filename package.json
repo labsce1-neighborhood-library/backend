@@ -6,7 +6,7 @@
   "scripts": {
     "start-dev": "nodemon",
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tests/*.js --exit"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,12 @@
     "express": "^4.17.1",
     "helmet": "^3.18.0",
     "knex": "^0.17.3",
-    "nodemon": "^1.19.1",
     "pg": "^7.11.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^6.1.4",
+    "nodemon": "^1.19.1"
   }
 }
