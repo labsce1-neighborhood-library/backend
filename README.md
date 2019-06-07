@@ -40,52 +40,20 @@ To get the server running locally:
 
 #### Book Routes
 
-| Method | Endpoint             | Access Control | Description                                     |
-| ------ | -------------------- | -------------- | ----------------------------------------------- |
-| GET    | `/book/all`          | All users      | Returns array of all book objects, or empty     |
-| GET    | `/book/:id`          | All users      | Returns array containing book object, or empty  |
-| GET    | `/book/by-user/:id`  | All users      | Returns array of all books by user id, or empty |
-| POST   | `/book/post-new/:id` | User with id   | Returns array containing newly added book       |
-| PUT    | `/book/update/:id`   | User with id   | Returns array containing updated book object    |
-| DELETE | `/book/delete/:id`   | User with id   | Returns number of rows deleted                  |
+| Method | Endpoint                              | Access Control | Description                                              |
+| ------ | ------------------------------------- | -------------- | -------------------------------------------------------- |
+| GET    | `/book/all`                           | All users      | Returns array of all book objects, or empty              |
+| GET    | `/book/:id`                           | All users      | Returns array containing book object, or empty           |
+| GET    | `/book/by-user/:id`                   | All users      | Returns array of all books by user id, or empty          |
+| GET    | `/book/by-location/:lat/:lon/:radius` | All users      | Returns array of books within radius of lat/lon location |
+| POST   | `/book/post-new/:id`                  | User with id   | Returns array containing newly added book                |
+| PUT    | `/book/update/:id`                    | User with id   | Returns array containing updated book object             |
+| DELETE | `/book/delete/:id`                    | User with id   | Returns number of rows deleted                           |
 
 # Data Model
 
 <img src="./img/data_models.svg" alt="data models" />
 
-#### 2️⃣ ORGANIZATIONS
-
----
-
-```
-{
-  id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
-}
-```
-
-#### USERS
-
----
-
-```
-{
-  id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
-  email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
-}
 ```
 
 ## 2️⃣ Actions
@@ -169,3 +137,4 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
 🚫 Add DS iOS and/or Andriod links here if applicable.
+```
