@@ -6,7 +6,6 @@ exports.seed = function(knex, Promise) {
       // Inserts seed entries
       return knex("book_table").insert([
         {
-          book_id: 1,
           user_id: 1,
           isbn: "9780307277923",
           condition: "good",
@@ -15,7 +14,6 @@ exports.seed = function(knex, Promise) {
           updated_at: "2019-06-05T22:25:48.719Z"
         },
         {
-          book_id: 2,
           user_id: 1,
           isbn: "9780375702709",
           condition: "okay",
@@ -24,7 +22,6 @@ exports.seed = function(knex, Promise) {
           updated_at: "2019-06-05T22:25:48.719Z"
         },
         {
-          book_id: 3,
           user_id: 1,
           isbn: "9780679725312",
           condition: "excellent",
