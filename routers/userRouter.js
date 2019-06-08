@@ -127,6 +127,7 @@ router.get("/email/:email", (req, res) => {
     });
 });
 
+// updates user
 router.put("/:user_id", (req, res) => {
   const body = req.body;
   const {user_id} = req.params;
@@ -144,6 +145,30 @@ router.put("/:user_id", (req, res) => {
       }else{
         res.status(400).json({
           message:"user with that user_id does not exist",
+          user_id
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json(err.message);
+    });
+});
+
+// deletes user
+router.delete("/:user_id", (req, res) => {
+  const {user_id} = req.params;
+  db("user_table")
+    .where({user_id})
+    .del()
+    .then(count => {
+      if(count === 1){
+        res.status(200).json({
+          message:"deleted user",
+          user_id
+        });
+      }else{
+        res.status(400).json({
+          message:"user with that user_id not found",
           user_id
         });
       }
