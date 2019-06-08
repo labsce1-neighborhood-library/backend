@@ -127,4 +127,30 @@ router.get("/email/:email", (req, res) => {
     });
 });
 
+router.put("/:user_id", (req, res) => {
+  const body = req.body;
+  const {user_id} = req.params;
+  const currentDate = new Date();
+  body.updated_at = currentDate;
+  db("user_table")
+    .where({user_id})
+    .update(body)
+    .then(count => {
+      if(count === 1){
+        res.status(200).json({
+          message:"updated user",
+          body
+        });
+      }else{
+        res.status(400).json({
+          message:"user with that user_id does not exist",
+          user_id
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json(err.message);
+    });
+});
+
 module.exports = router;
