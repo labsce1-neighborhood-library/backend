@@ -48,23 +48,29 @@ To get the server running locally:
 | POST   | `/book/post-new/:id` | User with id   | Returns array containing newly added book       |
 | PUT    | `/book/update/:id`   | User with id   | Returns array containing updated book object    |
 | DELETE | `/book/delete/:id`   | User with id   | Returns number of rows deleted                  |
+| POST  | `/users/`                         | All users       | Creates new user |
+| GET   | `/users/id/:user_id`              | Admin           | Finds user by user_id |
+| GET   | `/users/username/:username`       | Admin           | Finds user by username |
+| GET   | `/users/firebase_id/:firebase_id` | Admin           | Finds user by firebase_id |
+| GET   | `/users/email/:email`             | Admin           | Finds user by email |
+| PUT   | `/users/:user_id`                 | All users       | Updates user |
 
 # Data Model
 
 <img src="./img/data_models.svg" alt="data models" />
 
-#### 2️⃣ ORGANIZATIONS
+#### 2️⃣ BOOKS
 
 ---
 
 ```
 {
-  id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
+  user_id: UUID, references user_table
+  isbn: STRING
+  condition: ENU ("excellent", "very good", "good", "okay", "poor")
+  loan: BOOLEAN
+  created_at: TIMESTAMP
+  updated_at: TIMESTAMP
 }
 ```
 
@@ -74,17 +80,17 @@ To get the server running locally:
 
 ```
 {
-  id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
+  user_id: UUID
+  firebase_id: STRING
+  username: STRING
   email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
+  name: STRING
+  latitude: FLOAT
+  longitude: FLOAT
+  lend_radius: INTEGER
+  created_at: TIMESTAMP
+  updated_at: TIMESTAMP
+  payment_info: STRING
 }
 ```
 
