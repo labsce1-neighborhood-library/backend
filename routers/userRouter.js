@@ -246,9 +246,11 @@ router.get("/location/:latitude/:longitude/:range", (req, res) => {
   const lonLB = longitude-range;
   const lonUB = Number(longitude)+Number(range);
   db("user_table")
-    .where(db.raw(`latitude between ${latLB} and ${latUB}`))
-      // AND
-      // longitude between ${lonLB} and ${lonUB}
+    .where(db.raw(`
+      latitude between ${latLB} and ${latUB}
+      AND
+      longitude between ${lonLB} and ${lonUB}
+    `))
     .then(users => {
       if(users.length > 0){
         res.status(200).json({
@@ -265,6 +267,60 @@ router.get("/location/:latitude/:longitude/:range", (req, res) => {
           latUB,
           lonLB,
           lonUB
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json(err.message);
+    });
+});
+
+// READ all users by ISBN
+router.get("/isbn/:isbn", (req, res) => {
+  const {isbn} = req.params;
+  db("book_table")
+  .where({isbn})
+  .then(books => {
+    if(books.length > 0){
+      const users = [];
+      books.forEach(function(book, index){
+        db("user_table")
+          .where({user_id:book.user_id})
+          .then(user => {
+            if(user.length === 0){
+              res.status(400).json({message:"could not find user with that book"});
+            }
+            users.push(user[0]);
+            if(index+1 === books.length){
+              res.status(200).json(users);
+            }
+          })
+          .catch(err => res.status(500).json(err.message));
+      });
+    }else{
+      res.status(400).json({
+        message:"no books with that isbn exist",
+        isbn
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).json(err.message)
+  });
+});
+
+// READ cc info by user_id
+router.get("/cc/:user_id", (req, res) => {
+  const {user_id} = req.params;
+  db("user_table")
+    .where({user_id})
+    .then(user => {
+      if(user.length === 1){
+        res.status(200).json({cc:user[0].payment_info});
+      }else{
+        res.status(400).json({
+          message:"user with that user_id does not exist",
+          user_id
         });
       }
     })
