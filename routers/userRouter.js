@@ -125,27 +125,36 @@ router.get("/email/:email", (req, res) => {
     .catch(err => {
       res.status(500).json(err.message)
     });
-});
-
-// updates user
-router.put("/:user_id", (req, res) => {
-  const body = req.body;
-  const {user_id} = req.params;
-  const currentDate = new Date();
-  body.updated_at = currentDate;
-  db("user_table")
-    .where({user_id})
-    .update(body)
-    .then(count => {
-      if(count === 1){
-        res.status(200).json({
-          message:"updated user",
-          body
-        });
+  });
+  
+// by book_id
+router.get("/book_id/:book_id", (req, res) => {
+  const {book_id} = req.params;
+  db("book_table")
+    .where({book_id})
+    .then(book => {
+      if(book.length === 1){
+        db("user_table")
+          .where({user_id:book[0].user_id})
+          .then(user => {
+            if(user.length === 1){
+              res.status(200).json({
+                message:"found user",
+                user:user[0]
+              });
+            }else{
+              res.status(400).json({
+                message:"book's user does not exist",
+                user_id,
+                book_id
+              })
+            }
+          })
+          .catch(err => res.status(500).json(err.message));
       }else{
         res.status(400).json({
-          message:"user with that user_id does not exist",
-          user_id
+          message:"book with that book_id does not exist",
+          book_id
         });
       }
     })
@@ -153,23 +162,74 @@ router.put("/:user_id", (req, res) => {
       res.status(500).json(err.message);
     });
 });
+  
+// UPDATE user
+router.put("/:user_id", (req, res) => {
+  const body = req.body;
+  const {user_id} = req.params;
+  const currentDate = new Date();
+  body.updated_at = currentDate;
+  db("user_table")
+  .where({user_id})
+  .update(body)
+  .then(count => {
+    if(count === 1){
+      res.status(200).json({
+        message:"updated user",
+        body
+      });
+    }else{
+      res.status(400).json({
+        message:"user with that user_id does not exist",
+        user_id
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).json(err.message);
+  });
+});
 
-// deletes user
+// DELETE user
 router.delete("/:user_id", (req, res) => {
   const {user_id} = req.params;
   db("user_table")
-    .where({user_id})
-    .del()
-    .then(count => {
-      if(count === 1){
+  .where({user_id})
+  .del()
+  .then(count => {
+    if(count === 1){
+      res.status(200).json({
+        message:"deleted user",
+        user_id
+      });
+    }else{
+      res.status(400).json({
+        message:"user with that user_id not found",
+        user_id
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).json(err.message);
+  });
+});
+
+// READ all users by location
+router.get("/location/:latitude/:longitude", (req, res) => {
+  const {latitude, longitude} = req.params;
+  db("user_table")
+    .where({latitude, longitude})
+    .then(users => {
+      if(users.length > 0){
         res.status(200).json({
-          message:"deleted user",
-          user_id
+          message:"found users",
+          users
         });
       }else{
         res.status(400).json({
-          message:"user with that user_id not found",
-          user_id
+          message:"user with that latitude and longitude does not exist",
+          latitude,
+          longitutde
         });
       }
     })
