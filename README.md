@@ -40,26 +40,32 @@ To get the server running locally:
 
 #### Book Routes
 
-| Method | Endpoint             | Access Control | Description                                     |
-| ------ | -------------------- | -------------- | ----------------------------------------------- |
-| GET    | `/book/all`          | All users      | Returns array of all book objects, or empty     |
-| GET    | `/book/:id`          | All users      | Returns array containing book object, or empty  |
-| GET    | `/book/by-user/:id`  | All users      | Returns array of all books by user id, or empty |
-| POST   | `/book/post-new/:id` | User with id   | Returns array containing newly added book       |
-| PUT    | `/book/update/:id`   | User with id   | Returns array containing updated book object    |
-| DELETE | `/book/delete/:id`   | User with id   | Returns number of rows deleted                  |
-| POST  | `/users/`                                     | All users       | Creates new user |
-| GET   | `/users/id/:user_id`                          | Admin           | Finds user by user_id |     
-| GET   | `/users/username/:username`                   | Admin           | Finds user by username |      
-| GET   | `/users/firebase_id/:firebase_id`             | Admin           | Finds user by firebase_id |     
-| GET   | `/users/email/:email`                         | Admin           | Finds user by email |
-| GET   | `/users/book_id/:book_id`                     | Admin           | finds user by book_id |     
-| PUT   | `/users/:user_id`                             | All users       | Updates user |
-| GET   | `/users/location/:latitude/:longitude`        | Admin           | Gets list of users that have their location at that latitude and longitude |
-| GET   | `/users/location/:latitude/:longitude/:range` | Admin           | Gets list of users that have their location within the range of the latitude and longitude |
-| GET   | `/users/isbn/:isbn`                           | Admin           | Gets list of users that have that book |
-| GET   | `/users/cc/:user_id`                          | Admin           | Gets cc info by user_id |
-| GET   | `/check_username_exists/:username`            | Admin           | Checks if username exists |
+| Method | Endpoint                              | Access Control | Description                                              |
+| ------ | ------------------------------------- | -------------- | -------------------------------------------------------- |
+| GET    | `/book/all`                           | All users      | Returns array of all book objects, or empty              |
+| GET    | `/book/:id`                           | All users      | Returns array containing book object, or empty           |
+| GET    | `/book/by-user/:id`                   | All users      | Returns array of all books by user id, or empty          |
+| GET    | `/book/by-location/:lat/:lon/:radius` | All users      | Returns array of books within radius of lat/lon location |
+| POST   | `/book/post-new/:id`                  | User with id   | Returns array containing newly added book                |
+| PUT    | `/book/update/:id`                    | User with id   | Returns array containing updated book object             |
+| DELETE | `/book/delete/:id`                    | User with id   | Returns number of rows deleted                           |
+
+#### User Routes
+
+| Method | Endpoint                                      | Access Control | Description                                                                                |
+| ------ | --------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------ |
+| POST   | `/users/`                                     | All users      | Creates new user                                                                           |
+| GET    | `/users/id/:user_id`                          | Admin          | Finds user by user_id                                                                      |
+| GET    | `/users/username/:username`                   | Admin          | Finds user by username                                                                     |
+| GET    | `/users/firebase_id/:firebase_id`             | Admin          | Finds user by firebase_id                                                                  |
+| GET    | `/users/email/:email`                         | Admin          | Finds user by email                                                                        |
+| GET    | `/users/book_id/:book_id`                     | Admin          | finds user by book_id                                                                      |
+| PUT    | `/users/:user_id`                             | All users      | Updates user                                                                               |
+| GET    | `/users/location/:latitude/:longitude`        | Admin          | Gets list of users that have their location at that latitude and longitude                 |
+| GET    | `/users/location/:latitude/:longitude/:range` | Admin          | Gets list of users that have their location within the range of the latitude and longitude |
+| GET    | `/users/isbn/:isbn`                           | Admin          | Gets list of users that have that book                                                     |
+| GET    | `/users/cc/:user_id`                          | Admin          | Gets cc info by user_id                                                                    |
+| GET    | `/check_username_exists/:username`            | Admin          | Checks if username exists                                                                  |
 
 # Data Model
 
@@ -99,6 +105,8 @@ To get the server running locally:
   payment_info: STRING
 }
 ```
+
+> > > > > > > 1ed40881fd2239fe67c58641a954435fde323f2a
 
 ## 2️⃣ Actions
 
@@ -181,3 +189,11 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
 🚫 Add DS iOS and/or Andriod links here if applicable.
+
+```
+
+```
+
+```
+
+```

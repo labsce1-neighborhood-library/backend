@@ -1,4 +1,5 @@
 const express = require("express");
+const geolib = require("geolib");
 
 const db = require("../db/config");
 const router = express.Router();
@@ -41,6 +42,42 @@ router.get("/by-user/:id", (req, res) => {
     })
     .catch(err => {
       res.status(500).json({ message: "Error retrieiving books by user id" });
+    });
+});
+
+// [GET] all books within radius
+router.get("/by-location/:lat/:lon/:radius", async (req, res) => {
+  const lat = Number(req.params.lat);
+  const lon = Number(req.params.lon);
+  const radius = Number(req.params.radius);
+
+  // LAT: -90 to 90, LON: -180 to 180
+  db("book_table as b")
+    .select("b.*", "u.latitude", "u.longitude")
+    .innerJoin("user_table as u", "u.user_id", "b.user_id")
+    .then(books => {
+      if (books.length) {
+        const output = [];
+        for (let x = 0; x < books.length; x++) {
+          if (
+            geolib.getPreciseDistance(
+              { latitude: books[x].latitude, longitude: books[x].longitude },
+              { latitude: lat, longitude: lon },
+              1
+            ) <=
+            radius * 1609.3
+          ) {
+            output.push(books[x]);
+          }
+        }
+
+        res.status(200).json(output);
+      } else {
+        res.status(200).json({ message: "No books within radius" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json(err);
     });
 });
 
