@@ -64,3 +64,5 @@ typings/
 
 # database file
 database.sqlite3
+
+yarn.lock
