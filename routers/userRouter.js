@@ -329,4 +329,18 @@ router.get("/cc/:user_id", (req, res) => {
     });
 });
 
+// check if username exists
+router.get("/check_username_exists/:username", (req, res) => {
+  const {username} = req.params;
+  db("user_table")
+    .where({username})
+    .then(user => {
+      const bool = user.length===1;
+      res.status(200).json({exists:bool});
+    })
+    .catch(err => {
+      res.status(500).json(err.message);
+    });
+});
+
 module.exports = router;

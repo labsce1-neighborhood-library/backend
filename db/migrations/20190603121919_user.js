@@ -4,7 +4,6 @@ exports.up = function(knex, Promise) {
 
     tbl
       .string("firebase_id", 128)
-      .notNullable()
       .unique();
 
     tbl

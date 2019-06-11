@@ -56,7 +56,10 @@ To get the server running locally:
 | GET   | `/users/book_id/:book_id`                     | Admin           | finds user by book_id |     
 | PUT   | `/users/:user_id`                             | All users       | Updates user |
 | GET   | `/users/location/:latitude/:longitude`        | Admin           | Gets list of users that have their location at that latitude and longitude |
-| GET   | `/users/location/:latitude/:longitude/:range` | Admin           | Gets list of users that have their location within the range of the latitude and longitude
+| GET   | `/users/location/:latitude/:longitude/:range` | Admin           | Gets list of users that have their location within the range of the latitude and longitude |
+| GET   | `/users/isbn/:isbn`                           | Admin           | Gets list of users that have that book |
+| GET   | `/users/cc/:user_id`                          | Admin           | Gets cc info by user_id |
+| GET   | `/check_username_exists/:username`            | Admin           | Checks if username exists |
 
 # Data Model
 
