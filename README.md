@@ -52,14 +52,61 @@ To get the server running locally:
 
 #### User Routes
 
-| Method | Endpoint                          | Access Control | Description               |
-| ------ | --------------------------------- | -------------- | ------------------------- |
-| POST   | `/users/`                         | All users      | Creates new user          |
-| GET    | `/users/id/:user_id`              | Admin          | Finds user by user_id     |
-| GET    | `/users/username/:username`       | Admin          | Finds user by username    |
-| GET    | `/users/firebase_id/:firebase_id` | Admin          | Finds user by firebase_id |
-| GET    | `/users/email/:email`             | Admin          | Finds user by email       |
-| PUT    | `/users/:user_id`                 | All users      | Updates user              |
+| Method | Endpoint                                      | Access Control | Description                                                                                |
+| ------ | --------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------ |
+| POST   | `/users/`                                     | All users      | Creates new user                                                                           |
+| GET    | `/users/id/:user_id`                          | Admin          | Finds user by user_id                                                                      |
+| GET    | `/users/username/:username`                   | Admin          | Finds user by username                                                                     |
+| GET    | `/users/firebase_id/:firebase_id`             | Admin          | Finds user by firebase_id                                                                  |
+| GET    | `/users/email/:email`                         | Admin          | Finds user by email                                                                        |
+| GET    | `/users/book_id/:book_id`                     | Admin          | finds user by book_id                                                                      |
+| PUT    | `/users/:user_id`                             | All users      | Updates user                                                                               |
+| GET    | `/users/location/:latitude/:longitude`        | Admin          | Gets list of users that have their location at that latitude and longitude                 |
+| GET    | `/users/location/:latitude/:longitude/:range` | Admin          | Gets list of users that have their location within the range of the latitude and longitude |
+| GET    | `/users/isbn/:isbn`                           | Admin          | Gets list of users that have that book                                                     |
+| GET    | `/users/cc/:user_id`                          | Admin          | Gets cc info by user_id                                                                    |
+| GET    | `/check_username_exists/:username`            | Admin          | Checks if username exists                                                                  |
+
+# Data Model
+
+<img src="./img/data_models.svg" alt="data models" />
+
+#### 2️⃣ BOOKS
+
+---
+
+```
+{
+  user_id: UUID, references user_table
+  isbn: STRING
+  condition: ENU ("excellent", "very good", "good", "okay", "poor")
+  loan: BOOLEAN
+  created_at: TIMESTAMP
+  updated_at: TIMESTAMP
+}
+```
+
+#### USERS
+
+---
+
+```
+{
+  user_id: UUID
+  firebase_id: STRING
+  username: STRING
+  email: STRING
+  name: STRING
+  latitude: FLOAT
+  longitude: FLOAT
+  lend_radius: INTEGER
+  created_at: TIMESTAMP
+  updated_at: TIMESTAMP
+  payment_info: STRING
+}
+```
+
+> > > > > > > 1ed40881fd2239fe67c58641a954435fde323f2a
 
 ## 2️⃣ Actions
 
