@@ -229,7 +229,42 @@ router.get("/location/:latitude/:longitude", (req, res) => {
         res.status(400).json({
           message:"user with that latitude and longitude does not exist",
           latitude,
-          longitutde
+          longitude
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json(err.message);
+    });
+});
+
+// READ all users by location range
+router.get("/location/:latitude/:longitude/:range", (req, res) => {
+  const {latitude, longitude, range} = req.params;
+  const latLB = latitude-range;
+  const latUB = Number(latitude)+Number(range);
+  const lonLB = longitude-range;
+  const lonUB = Number(longitude)+Number(range);
+  db("user_table")
+    .where(db.raw(`latitude between ${latLB} and ${latUB}`))
+      // AND
+      // longitude between ${lonLB} and ${lonUB}
+    .then(users => {
+      if(users.length > 0){
+        res.status(200).json({
+          message:"found users",
+          users
+        });
+      }else{
+        res.status(400).json({
+          message:"user with that latitude and longitude does not exist",
+          latitude,
+          longitude,
+          range,
+          latLB,
+          latUB,
+          lonLB,
+          lonUB
         });
       }
     })
