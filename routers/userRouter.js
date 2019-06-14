@@ -1,5 +1,6 @@
 const express = require("express");
-
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const db = require("../db/config");
 const router = express.Router();
 
@@ -352,11 +353,11 @@ router.post('/login', (req, res) => {
     return res.status(400).json(errors);
   }
 
-  const email = req.body.email;
+  const username = req.body.username;
   const password = req.body.password;
 
-  // Find user by email
-  User.findOne({ email }).then(user => {
+  // Find user by username
+  User.findOne({ username }).then(user => {
     // Check for user
     if (!user) {
       errors.email = 'User not found';
@@ -364,10 +365,10 @@ router.post('/login', (req, res) => {
     }
 
     // Check Password
-    bcrypt.compare(password, user.password).then(isMatch => {
+    bcrypt.compare(password, username.password).then(isMatch => {
       if (isMatch) {
         // User Matched
-        const payload = { id: user.id, name: user.name, avatar: user.avatar }; // Create JWT Payload
+        const payload = { id: username.id, name: username.name }; // Create JWT Payload
 
         // Sign Token
         jwt.sign(
