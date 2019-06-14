@@ -23,12 +23,14 @@ const server = express();
 // const {
 //     userRouter,
 //     bookRouter,
+//     authRouter,
 // }  = require("../routers/index.js");
 
 // // means we have to access the endpoint by first putting in /users  then any extras created in the userRouter file
 // server.use('/users', userRouter);
 // server.use('/books', bookRouter);
+// server.use('/auth', authRouter);
 
-configureMiddleware(server);
+configureMiddleware(server);   
 
 module.exports = server;

@@ -3,7 +3,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 
-const { userRouter, bookRouter } = require("../routers/index.js");
+const { userRouter, bookRouter, authRouter } = require("../routers/index.js");
 
 // const testRouter = require("../routers/testRouter.js");
 // const userRouter = require("../routers/userRouter.js");
@@ -20,4 +20,5 @@ module.exports = server => {
   // server.use("/test", testRouter);
   server.use("/user", userRouter);
   server.use("/book", bookRouter);
+  server.use("/auth", authRouter);
 };

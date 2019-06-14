@@ -7,7 +7,7 @@ const getUsers = () => {
 
 //user story user wants to join the site
 const registerUser = (body) => {
-    db("user_table")
+     db("user_table")
     .insert(body)
 }
 
@@ -28,6 +28,6 @@ const deleteUser = async user_id => {
 module.exports = {
     getUsers, 
     registerUser, 
-    updaeUser, 
+    updateUser, 
     deleteUser, 
 }
