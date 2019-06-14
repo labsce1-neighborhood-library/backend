@@ -1,5 +1,6 @@
 const express = require("express");
-
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const db = require("../db/config");
 const router = express.Router();
 
@@ -342,5 +343,51 @@ router.get("/check_username_exists/:username", (req, res) => {
       res.status(500).json(err.message);
     });
 });
+
+//login
+router.post('/login', (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
+
+  // Check Validation
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
+
+  const username = req.body.username;
+  const password = req.body.password;
+
+  // Find user by username
+  User.findOne({ username }).then(user => {
+    // Check for user
+    if (!user) {
+      errors.email = 'User not found';
+      return res.status(404).json(errors);
+    }
+
+    // Check Password
+    bcrypt.compare(password, username.password).then(isMatch => {
+      if (isMatch) {
+        // User Matched
+        const payload = { id: username.id, name: username.name }; // Create JWT Payload
+
+        // Sign Token
+        jwt.sign(
+          payload,
+          { expiresIn: 3600 },
+          (err, token) => {
+            res.json({
+              success: true,
+              token: 'Bearer ' + token
+            });
+          }
+        );
+      } else {
+        errors.password = 'Password incorrect';
+        return res.status(400).json(errors);
+      }
+    });
+  });
+});
+
 
 module.exports = router;
