@@ -2,7 +2,7 @@ const db = require("../dbConfig");
 
 /*method that will return all books */
 const getBooks = () => {
-    return db("book_table")
+    return db("book_table");
 }
 
 
