@@ -25,3 +25,9 @@ const deleteUser = async user_id => {
       .del()
 }
 
+module.exports = {
+    getUsers, 
+    registerUser, 
+    updaeUser, 
+    deleteUser, 
+}
