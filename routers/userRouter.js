@@ -179,10 +179,12 @@ router.put("/:user_id", (req, res) => {
   const {user_id} = req.params;
   const currentDate = new Date();
   body.updated_at = currentDate;
-  if(body.hasOwnProperty('email') && typeof body.email==='string'){
-    body.email = body.email.toLocaleLowerCase();
-  }else{
-    res.status(400).json({message:"body missing email or value type is not string"});
+  if(body.hasOwnProperty('email')){
+    if(typeof body.email==='string'){
+      body.email = body.email.toLocaleLowerCase();
+    }else{
+      res.status(400).json({message:"email property is not of type string"});
+    }
   }
 
   db("user_table")
@@ -277,6 +279,7 @@ router.put("/:user_id", (req, res) => {
               .catch(err => res.status(500).json(err.message));
           }
         }
+        update(user_id, body);
       }else{
         // user_id not found
         res.status(404).json({
