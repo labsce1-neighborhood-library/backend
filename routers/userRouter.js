@@ -25,7 +25,7 @@ router.post("/", (req, res) => {
   }else{
     res.status(400).json({message:"body missing email or value type is not string"});
   }
-  
+
   db("user_table")
     .insert(user)
     .then(info => {
@@ -243,7 +243,7 @@ router.put("/:user_id", (req, res) => {
           }else if(checkEmail){
             db("user_table")
               .where({email:body.email})
-              then(user => {
+              .then(user => {
                 if(user.length === 1){
                   res.status(400).json({
                     message:"email already used",
@@ -284,6 +284,12 @@ router.put("/:user_id", (req, res) => {
     });
     
     function update(user_id, body) {
+      if(body.hasOwnProperty('email') && typeof body.email==='string'){
+        body.email = body.email.toLocaleLowerCase();
+      }else{
+        res.status(400).json({message:"body missing email or value type is not string"});
+      }
+
       db("user_table")
       .where({user_id})
       .update(body)
