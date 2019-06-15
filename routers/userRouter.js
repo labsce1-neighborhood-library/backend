@@ -179,6 +179,12 @@ router.put("/:user_id", (req, res) => {
   const {user_id} = req.params;
   const currentDate = new Date();
   body.updated_at = currentDate;
+  if(body.hasOwnProperty('email') && typeof body.email==='string'){
+    body.email = body.email.toLocaleLowerCase();
+  }else{
+    res.status(400).json({message:"body missing email or value type is not string"});
+  }
+
   db("user_table")
     .where({user_id})
     .then(user => {
@@ -284,12 +290,6 @@ router.put("/:user_id", (req, res) => {
     });
     
     function update(user_id, body) {
-      if(body.hasOwnProperty('email') && typeof body.email==='string'){
-        body.email = body.email.toLocaleLowerCase();
-      }else{
-        res.status(400).json({message:"body missing email or value type is not string"});
-      }
-
       db("user_table")
       .where({user_id})
       .update(body)
