@@ -20,7 +20,7 @@ router.post("/", (req, res) => {
     .insert(user)
     .then(info => {
       db("user_table")
-        .where({firebase_id:user.firebase_id})
+        .where({username:user.username})
         .then(user_info => {
           res.status(200).json({
             "message":"new user successfully created",
