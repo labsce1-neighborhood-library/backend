@@ -57,7 +57,7 @@ router.get("/id/:user_id", (req, res) => {
           user:array[0]
         });
       }else{
-        res.status(400).json({
+        res.status(404).json({
           message:"user with that user_id does not exist",
           user_id
         });
@@ -103,7 +103,7 @@ router.get("/username/:username", (req, res) => {
           user:array[0]
         });
       }else{
-        res.status(400).json({
+        res.status(404).json({
           message:"user with that username does not exist",
           username
         });
@@ -126,7 +126,7 @@ router.get("/email/:email", (req, res) => {
           user:array[0]
         });
       }else{
-        res.status(400).json({
+        res.status(404).json({
           message:"user with that email does not exist",
           email
         });
@@ -153,7 +153,7 @@ router.get("/book_id/:book_id", (req, res) => {
                 user:user[0]
               });
             }else{
-              res.status(400).json({
+              res.status(404).json({
                 message:"book's user does not exist",
                 user_id,
                 book_id
@@ -279,7 +279,7 @@ router.put("/:user_id", (req, res) => {
         }
       }else{
         // user_id not found
-        res.status(400).json({
+        res.status(404).json({
           message:"user with that user_id does not exist",
           user_id
         });
@@ -300,7 +300,7 @@ router.put("/:user_id", (req, res) => {
             body
           });
         }else{
-          res.status(400).json({
+          res.status(404).json({
             message:"user with that user_id does not exist",
             user_id
           });
@@ -323,7 +323,7 @@ router.delete("/:user_id", (req, res) => {
         user_id
       });
     }else{
-      res.status(400).json({
+      res.status(404).json({
         message:"user with that user_id not found",
         user_id
       });
@@ -346,7 +346,7 @@ router.get("/location/:latitude/:longitude", (req, res) => {
           users
         });
       }else{
-        res.status(400).json({
+        res.status(404).json({
           message:"user with that latitude and longitude does not exist",
           latitude,
           longitude
