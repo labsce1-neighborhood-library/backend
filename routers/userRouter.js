@@ -16,6 +16,16 @@ router.get("/all", (req, res) => {
 // CREATE a user
 router.post("/", (req, res) => {
   const user = req.body;
+  // lower case the email to make sure all emails are unique
+  if(user.hasOwnProperty('email') && typeof user.email==='string'){
+    // typically wouldn't have to check for property since it would be dealt with later,
+    // but will be performing operations on the property
+    // so check necesary to avoid fatal error
+    user.email = user.email.toLocaleLowerCase();
+  }else{
+    res.status(400).json({message:"body missing email or value type is not string"});
+  }
+  
   db("user_table")
     .insert(user)
     .then(info => {
