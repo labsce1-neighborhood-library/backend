@@ -84,6 +84,7 @@ router.get("/by-location/:lat/:lon/:radius", async (req, res) => {
 // [POST] new book to user id
 router.post("/post-new/:id", (req, res) => {
   const newBook = req.body;
+  newBook.user_id = req.params.id;
   db("book_table")
     .returning("*")
     .insert(newBook)
