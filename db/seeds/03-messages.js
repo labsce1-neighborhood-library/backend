@@ -8,8 +8,8 @@ const generateSeeds = () => {
       content: `message ${i} to Sagar from Sarah`
     });
     array.push({
-      sender_id: 1,
-      receiver_id: 2,
+      sender_id: 2,
+      receiver_id: 1,
       content: `message ${i} to Sarah from Sagar`
     });
   }
