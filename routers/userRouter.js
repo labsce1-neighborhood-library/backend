@@ -17,11 +17,21 @@ router.get("/all", (req, res) => {
 // CREATE a user
 router.post("/", (req, res) => {
   const user = req.body;
+  // lower case the email to make sure all emails are unique
+  if(user.hasOwnProperty('email') && typeof user.email==='string'){
+    // typically wouldn't have to check for property since it would be dealt with later,
+    // but will be performing operations on the property
+    // so check necesary to avoid fatal error
+    user.email = user.email.toLocaleLowerCase();
+  }else{
+    res.status(400).json({message:"body missing email or value type is not string"});
+  }
+
   db("user_table")
     .insert(user)
     .then(info => {
       db("user_table")
-        .where({firebase_id:user.firebase_id})
+        .where({username:user.username})
         .then(user_info => {
           res.status(200).json({
             "message":"new user successfully created",
@@ -48,7 +58,7 @@ router.get("/id/:user_id", (req, res) => {
           user:array[0]
         });
       }else{
-        res.status(400).json({
+        res.status(404).json({
           message:"user with that user_id does not exist",
           user_id
         });
@@ -94,7 +104,7 @@ router.get("/username/:username", (req, res) => {
           user:array[0]
         });
       }else{
-        res.status(400).json({
+        res.status(404).json({
           message:"user with that username does not exist",
           username
         });
@@ -117,7 +127,7 @@ router.get("/email/:email", (req, res) => {
           user:array[0]
         });
       }else{
-        res.status(400).json({
+        res.status(404).json({
           message:"user with that email does not exist",
           email
         });
@@ -144,7 +154,7 @@ router.get("/book_id/:book_id", (req, res) => {
                 user:user[0]
               });
             }else{
-              res.status(400).json({
+              res.status(404).json({
                 message:"book's user does not exist",
                 user_id,
                 book_id
@@ -170,25 +180,138 @@ router.put("/:user_id", (req, res) => {
   const {user_id} = req.params;
   const currentDate = new Date();
   body.updated_at = currentDate;
-  db("user_table")
-  .where({user_id})
-  .update(body)
-  .then(count => {
-    if(count === 1){
-      res.status(200).json({
-        message:"updated user",
-        body
-      });
+  if(body.hasOwnProperty('email')){
+    if(typeof body.email==='string'){
+      body.email = body.email.toLocaleLowerCase();
     }else{
-      res.status(400).json({
-        message:"user with that user_id does not exist",
-        user_id
-      });
+      res.status(400).json({message:"email property is not of type string"});
     }
-  })
-  .catch(err => {
-    res.status(500).json(err.message);
-  });
+  }
+
+  db("user_table")
+    .where({user_id})
+    .then(user => {
+      // found user with that user_id
+      if(user.length === 1){
+        // check if unique parameters are trying to be violated
+        // if the user already has it delete those properties and proceed
+        let checkUsername = false;
+        let checkEmail = false;
+        if(body.hasOwnProperty('username')){
+          if(user[0].username === body.username){
+            delete body.username;
+          }else{
+            checkUsername = true;
+          }
+        }
+        if(body.hasOwnProperty('email')){
+          if(user[0].email === body.email){
+            delete body.email;
+          }else{
+            checkEmail = true;
+          }
+        }
+        // if another user already has that username then return client error
+        // if another user already has that email then return client error
+        // due to the asynchronous behavior when js executes http requests
+        // I decided to have this weird checking system
+        if(checkEmail || checkUsername){
+          // if the request is trying to update both the username and email,
+          // then username and email will be checked in sequential order
+          // if neither are already taken by the other user,
+          // then the user will be updated
+          if(checkEmail && checkUsername){
+            db("user_table")
+              .where({username:body.username})
+              .then(user => {
+                if(user.length === 1){
+                  // different user found with that username
+                  res.status(400).json({
+                    message:"username taken by another user",
+                    username: body.username
+                  });
+                }else{
+                  db("user_table")
+                    .where({email:body.email})
+                    .then(user => {
+                      if(user.length === 1){
+                        // different user found with that email
+                        res.status(400).json({
+                          message:"email already used",
+                          email:body.email
+                        });
+                      }else{
+                        // no other user has that username nor email so both can be updated in the user
+                        update(user_id, body);
+                      }
+                    })
+                    .catch(err => res.status(500).json(err.message));
+                }
+              })
+          // just need to check if the email is already taken by another user
+          }else if(checkEmail){
+            db("user_table")
+              .where({email:body.email})
+              .then(user => {
+                if(user.length === 1){
+                  res.status(400).json({
+                    message:"email already used",
+                    email:body.email
+                  });
+                }else{
+                  update(user_id, body);
+                }
+              })
+              .catch(err => res.status(500).json(err.message));
+          }else{
+            // just need to check if the username is already taken by another user
+            db("user_table")
+              .where({username:body.username})
+              .then(user => {
+                if(user.length === 1){
+                  res.status(400).json({
+                    message:"username taken by another user",
+                    username:body.username
+                  });
+                }else{
+                  update(user_id, body);
+                }
+              })
+              .catch(err => res.status(500).json(err.message));
+          }
+        }
+        update(user_id, body);
+      }else{
+        // user_id not found
+        res.status(404).json({
+          message:"user with that user_id does not exist",
+          user_id
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json(err.message)
+    });
+    
+    function update(user_id, body) {
+      db("user_table")
+      .where({user_id})
+      .update(body)
+      .then(count => {
+        if(count === 1){
+          res.status(200).json({
+            message:"updated user",
+            body
+          });
+        }else{
+          res.status(404).json({
+            message:"user with that user_id does not exist",
+            user_id
+          });
+        }
+      })
+      .catch(err => res.status(500).json(err.message));
+    }
 });
 
 // DELETE user
@@ -204,7 +327,7 @@ router.delete("/:user_id", (req, res) => {
         user_id
       });
     }else{
-      res.status(400).json({
+      res.status(404).json({
         message:"user with that user_id not found",
         user_id
       });
@@ -227,7 +350,7 @@ router.get("/location/:latitude/:longitude", (req, res) => {
           users
         });
       }else{
-        res.status(400).json({
+        res.status(404).json({
           message:"user with that latitude and longitude does not exist",
           latitude,
           longitude

@@ -54,18 +54,19 @@ To get the server running locally:
 
 | Method | Endpoint                                      | Access Control | Description                                                                                |
 | ------ | --------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------ |
-| POST   | `/users/`                                     | All users      | Creates new user                                                                           |
-| GET    | `/users/id/:user_id`                          | Admin          | Finds user by user_id                                                                      |
-| GET    | `/users/username/:username`                   | Admin          | Finds user by username                                                                     |
-| GET    | `/users/firebase_id/:firebase_id`             | Admin          | Finds user by firebase_id                                                                  |
-| GET    | `/users/email/:email`                         | Admin          | Finds user by email                                                                        |
-| GET    | `/users/book_id/:book_id`                     | Admin          | finds user by book_id                                                                      |
-| PUT    | `/users/:user_id`                             | All users      | Updates user                                                                               |
-| GET    | `/users/location/:latitude/:longitude`        | Admin          | Gets list of users that have their location at that latitude and longitude                 |
-| GET    | `/users/location/:latitude/:longitude/:range` | Admin          | Gets list of users that have their location within the range of the latitude and longitude |
-| GET    | `/users/isbn/:isbn`                           | Admin          | Gets list of users that have that book                                                     |
-| GET    | `/users/cc/:user_id`                          | Admin          | Gets cc info by user_id                                                                    |
-| GET    | `/check_username_exists/:username`            | Admin          | Checks if username exists                                                                  |
+| POST   | `/user/`                                     | All users      | Creates new user                                        |
+| GET    | `/user/id/:user_id`                          | Admin          | Reads user by user_id                                   |
+| GET    | `/user/username/:username`                   | Admin          | Reads user by username                                  |
+| GET    | `/user/firebase_id/:firebase_id`             | Admin          | Reads user by firebase_id                               |
+| GET    | `/user/email/:email`                         | Admin          | Reads user by email                                     |
+| GET    | `/user/book_id/:book_id`                     | Admin          | Reads user by book_id                                   |
+| PUT    | `/user/:user_id`                             | All users      | Updates user                                            |
+| DELETE | `/user/:user_id`                             | Admin          | Deletes user                                            |
+| GET    | `/user/location/:latitude/:longitude`        | Admin          | Reads list of users that have their location at that latitude and longitude                 |
+| GET    | `/user/location/:latitude/:longitude/:range` | Admin          | Reads list of users that have their location within the range of the latitude and longitude |
+| GET    | `/user/isbn/:isbn`                           | Admin          | Reads list of users that have that book                 |
+| GET    | `/user/cc/:user_id`                          | Admin          | Reads cc info by user_id                                |
+| GET    | `/user/check_username_exists/:username`            | Admin          | Checks if username exists                                                                  |
 
 # Data Model
 
